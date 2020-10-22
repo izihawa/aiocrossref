@@ -13,7 +13,13 @@ async def works(doi):
         await c.stop()
 
 
+def cli(doi):
+    return asyncio.get_event_loop().run_until_complete(works(doi))
+
+
+def main():
+    fire.Fire(cli)
+
+
 if __name__ == '__main__':
-    def main(doi):
-        return asyncio.get_event_loop().run_until_complete(works(doi))
-    fire.Fire(main)
+    main()
