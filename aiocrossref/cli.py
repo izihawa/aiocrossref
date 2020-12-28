@@ -1,24 +1,15 @@
-import asyncio
-
 import fire
 from aiocrossref.client import CrossrefClient
+from aiokit.utils import sync_fu
 
 
 async def works(doi):
-    c = CrossrefClient()
-    try:
-        await c.start()
+    async with CrossrefClient() as c:
         return await c.works(doi)
-    finally:
-        await c.stop()
-
-
-def cli(doi):
-    return asyncio.get_event_loop().run_until_complete(works(doi))
 
 
 def main():
-    fire.Fire(cli)
+    fire.Fire(sync_fu(works))
 
 
 if __name__ == '__main__':

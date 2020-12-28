@@ -21,12 +21,14 @@ class CrossrefClient(BaseClient):
         base_url: str = 'https://api.crossref.org/',
         user_agent: str = None,
         delay: float = 1.0 / 50.0,
-        timeout=None,
+        timeout: float = None,
+        max_retries=2,
+        retry_delay=0.5,
     ):
         headers = {}
         if user_agent:
             headers['User-Agent'] = user_agent
-        super().__init__(base_url=base_url, default_headers=headers, timeout=timeout)
+        super().__init__(base_url=base_url, default_headers=headers, timeout=timeout, max_retries=max_retries, retry_delay=retry_delay)
         self.delay = delay
         self.last_query_time = 0.0
 
