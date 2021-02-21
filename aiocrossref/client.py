@@ -24,11 +24,19 @@ class CrossrefClient(BaseClient):
         timeout: float = None,
         max_retries=2,
         retry_delay=0.5,
+        proxy_url=None,
     ):
         headers = {}
         if user_agent:
             headers['User-Agent'] = user_agent
-        super().__init__(base_url=base_url, default_headers=headers, timeout=timeout, max_retries=max_retries, retry_delay=retry_delay)
+        super().__init__(
+            base_url=base_url,
+            default_headers=headers,
+            timeout=timeout,
+            max_retries=max_retries,
+            retry_delay=retry_delay,
+            proxy_url=proxy_url,
+        )
         self.delay = delay
         self.last_query_time = 0.0
 
