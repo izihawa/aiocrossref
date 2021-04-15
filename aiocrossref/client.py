@@ -70,11 +70,11 @@ class CrossrefClient(BaseClient):
         content_type = response.headers.get('Content-Type', '').lower()
         if not response.headers.get('Content-Type', '').lower().startswith('application/json'):
             if response.status == 404:
-                raise NotFoundError(data=data, status=response.status, url=response.url)
+                raise NotFoundError(data=data, status=response.status, url=str(response.url))
             elif response.status == 429:
-                raise TooManyRequestsError(status=response.status, url=response.url)
+                raise TooManyRequestsError(status=response.status, url=str(response.url))
             elif response.status == 503:
-                raise ServiceUnavailableError(status=response.status, url=response.url)
+                raise ServiceUnavailableError(status=response.status, url=str(response.url))
             raise WrongContentTypeError(content_type=content_type, data=data, status=response.status)
         data = json.loads(data)
         if isinstance(data, typing.Dict) and (data.get('status') == 'error' or data.get('status') == 'failed'):
@@ -84,6 +84,6 @@ class CrossrefClient(BaseClient):
                     'class com.mongodb.MongoTimeoutException',
                 )
             ):
-                raise NotFoundError(data=data, status=response.status, url=response.url)
+                raise NotFoundError(data=data, status=response.status, url=str(response.url))
             raise ClientError(**data)
         return data
